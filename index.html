@@ -11,8 +11,8 @@
             --card-bg: #ffffff;
             --text-color: #333;
             --accent-color: #f1c40f;
-            --success-color: #27ae60;
-            --danger-color: #e74c3c;
+            --play-color: #27ae60;
+            --stop-color: #e74c3c;
         }
 
         body {
@@ -85,7 +85,6 @@
             margin-bottom: 20px;
         }
 
-        /* 簡化版音軌控制區 */
         .audio-controls {
             background: #fdfdfd;
             padding: 12px;
@@ -102,7 +101,7 @@
             align-items: center;
             justify-content: flex-start;
             gap: 15px;
-            white-space: nowrap; /* 確保不換行 */
+            white-space: nowrap;
         }
 
         .audio-label {
@@ -112,34 +111,46 @@
 
         .btn-group {
             display: flex;
-            gap: 8px;
+            gap: 20px;
         }
 
-        .icon-btn {
+        /* 純圖示按鈕樣式 */
+        .icon-only-btn {
+            background: none;
             border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 6px;
             cursor: pointer;
+            font-size: 1.8rem;
+            padding: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            transition: opacity 0.2s;
+            transition: transform 0.1s;
         }
 
-        .icon-btn:active {
-            opacity: 0.7;
+        .icon-only-btn:active {
+            transform: scale(0.9);
         }
 
-        .play-icon { background-color: var(--success-color); color: white; }
-        .stop-icon { background-color: var(--danger-color); color: white; }
+        .play-icon { color: var(--play-color); }
+        .stop-icon { color: var(--stop-color); }
 
         .section-title {
             color: var(--primary-color);
             border-left: 5px solid var(--primary-color);
             padding-left: 10px;
             margin: 20px 0 10px;
+        }
+
+        /* 師云區塊：標楷體、不斜體 */
+        .quote-box {
+            font-family: "DFKai-SB", "BiauKai", "標楷體", serif;
+            font-style: normal;
+            background: #fffbe6;
+            padding: 15px;
+            border: 1px solid #ffe58f;
+            margin: 10px 0;
+            font-size: 1.1rem;
+            line-height: 1.5;
         }
 
         .instruction-block {
@@ -150,20 +161,12 @@
             white-space: pre-line;
             border: 1px dashed #ccc;
         }
-
-        .quote-box {
-            font-style: italic;
-            background: #fffbe6;
-            padding: 15px;
-            border: 1px solid #ffe58f;
-            margin: 10px 0;
-        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="version-tag">Version 0.4</div>
+    <div class="version-tag">Version 0.5</div>
 
     <header>
         <h1>佛乘宗動禪 24 式</h1>
@@ -180,15 +183,15 @@
             <div class="audio-row" id="audio-row-1">
                 <span class="audio-label" id="audio-label-1">口訣：</span>
                 <div class="btn-group">
-                    <button class="icon-btn play-icon" onclick="playAudio(1)">▶</button>
-                    <button class="icon-btn stop-icon" onclick="stopAudio()">■</button>
+                    <button class="icon-only-btn play-icon" onclick="playAudio(1)">▶</button>
+                    <button class="icon-only-btn stop-icon" onclick="stopAudio()">■</button>
                 </div>
             </div>
             <div class="audio-row" id="audio-row-2" style="display:none;">
                 <span class="audio-label" id="audio-label-2">不帶氣：</span>
                 <div class="btn-group">
-                    <button class="icon-btn play-icon" onclick="playAudio(2)">▶</button>
-                    <button class="icon-btn stop-icon" onclick="stopAudio()">■</button>
+                    <button class="icon-only-btn play-icon" onclick="playAudio(2)">▶</button>
+                    <button class="icon-only-btn stop-icon" onclick="stopAudio()">■</button>
                 </div>
             </div>
         </div>
@@ -217,7 +220,7 @@
         3: { 
             name: "身心一如", 
             mental: "真空即是妙有，身心一如，理事不二，慈悲平等，四無量心之行持。",
-            physical: "(1)以腹呼吸為主，加強腰腎及全身機能功用之行功。(2)有益治療腎虛、腸胃病及身弱引起的慢性病。",
+            physical: "1. 以腹呼吸為主，加強腰腎及全身機能功用之行功。 2. 有益治療腎虛、腸胃病及身弱引起的慢性病。",
             master: "初步要言行一致，心行合一，先妥協進而和協。",
             stepsText: "做動禪前先祈求：雙手各結一法印，合掌置於胸前 15 公分處，心中默念三聲九字禪，祈求祖師大慈大悲威德力加持，讓弟子修身心一如，順利、成功、圓滿。\n\n雙腳打開與肩同寬，腳掌平行，微微內扣，膝蓋微彎。\n\n1. 合掌置於胸前，吸氣入丹田，氣吸到飽，嘴成小圓形吐氣，雙手順勢向前向下擺，同時曲膝下蹲。\n\n2. 當大腿與地面平行，雙手與地面垂直，手臂往後擠壓腹部，同時發「嘶」聲將小腹剩餘濁氣排出，雙手自然回擺。\n\n3. 吸氣，慢慢起身，雙手呈掄圓狀往上提升，至會陰高度時提肛（約 2-3 秒），雙手回至腰際，閉氣三秒鐘，發「哈」聲慢慢把氣吐掉，同時雙手向下慢慢分開。",
             isRefining: true 
@@ -275,7 +278,6 @@
             masterBox.style.display = 'none';
         }
 
-        // 動態調整標籤文字與行數
         document.getElementById('audio-label-1').innerText = item.isRefining ? "煉氣版：" : "口訣：";
         document.getElementById('audio-row-2').style.display = item.isRefining ? "flex" : "none";
 
