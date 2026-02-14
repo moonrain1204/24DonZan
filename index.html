@@ -11,6 +11,8 @@
             --card-bg: #ffffff;
             --text-color: #333;
             --accent-color: #f1c40f;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
         }
 
         body {
@@ -22,7 +24,6 @@
             line-height: 1.6;
         }
 
-        /* 版本號樣式 */
         .version-tag {
             text-align: right;
             font-size: 0.8rem;
@@ -84,40 +85,55 @@
             margin-bottom: 20px;
         }
 
+        /* 簡化版音軌控制區 */
         .audio-controls {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 8px;
+            background: #fdfdfd;
+            padding: 12px;
+            border-radius: 10px;
             margin-bottom: 20px;
-            border: 1px solid #eee;
+            border: 1px solid #eaeaea;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .audio-row {
             display: flex;
             align-items: center;
-            gap: 10px;
+            justify-content: flex-start;
+            gap: 15px;
+            white-space: nowrap; /* 確保不換行 */
         }
 
-        .play-btn {
-            background: #27ae60;
-            color: white;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 4px;
-            cursor: pointer;
+        .audio-label {
+            font-weight: bold;
+            min-width: 70px;
         }
 
-        .stop-btn {
-            background: #e74c3c;
-            color: white;
-            border: none;
-            padding: 5px 15px;
-            border-radius: 4px;
-            cursor: pointer;
+        .btn-group {
+            display: flex;
+            gap: 8px;
         }
+
+        .icon-btn {
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: opacity 0.2s;
+        }
+
+        .icon-btn:active {
+            opacity: 0.7;
+        }
+
+        .play-icon { background-color: var(--success-color); color: white; }
+        .stop-icon { background-color: var(--danger-color); color: white; }
 
         .section-title {
             color: var(--primary-color);
@@ -147,7 +163,7 @@
 <body>
 
 <div class="container">
-    <div class="version-tag">Version 0.3</div>
+    <div class="version-tag">Version 0.4</div>
 
     <header>
         <h1>佛乘宗動禪 24 式</h1>
@@ -162,14 +178,18 @@
         
         <div class="audio-controls" id="audio-section">
             <div class="audio-row" id="audio-row-1">
-                <span id="audio-label-1">口訣音檔：</span>
-                <button class="play-btn" onclick="playAudio(1)">START ▶️</button>
-                <button class="stop-btn" onclick="stopAudio()">STOP ⏹️</button>
+                <span class="audio-label" id="audio-label-1">口訣：</span>
+                <div class="btn-group">
+                    <button class="icon-btn play-icon" onclick="playAudio(1)">▶</button>
+                    <button class="icon-btn stop-icon" onclick="stopAudio()">■</button>
+                </div>
             </div>
             <div class="audio-row" id="audio-row-2" style="display:none;">
-                <span id="audio-label-2">不帶氣版：</span>
-                <button class="play-btn" onclick="playAudio(2)">START ▶️</button>
-                <button class="stop-btn" onclick="stopAudio()">STOP ⏹️</button>
+                <span class="audio-label" id="audio-label-2">不帶氣：</span>
+                <div class="btn-group">
+                    <button class="icon-btn play-icon" onclick="playAudio(2)">▶</button>
+                    <button class="icon-btn stop-icon" onclick="stopAudio()">■</button>
+                </div>
             </div>
         </div>
 
@@ -255,7 +275,8 @@
             masterBox.style.display = 'none';
         }
 
-        document.getElementById('audio-label-1').innerText = item.isRefining ? "煉氣版： " : "口訣音檔： ";
+        // 動態調整標籤文字與行數
+        document.getElementById('audio-label-1').innerText = item.isRefining ? "煉氣版：" : "口訣：";
         document.getElementById('audio-row-2').style.display = item.isRefining ? "flex" : "none";
 
         const stepsDiv = document.getElementById('detail-steps');
