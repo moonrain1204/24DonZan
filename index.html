@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>佛乘動禪 24 式 (V1.3)</title>
+    <title>佛乘禪功 24 式 (V1.4)</title>
     <style>
         :root {
             --primary-color: #8e44ad;
@@ -23,40 +23,41 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             margin: 0;
-            padding: 20px;
+            padding: 15px;
         }
 
-        .container { max-width: 900px; margin: 0 auto; }
+        .container { max-width: 1000px; margin: 0 auto; }
         
         .version-tag { text-align: right; font-size: 0.8rem; color: #888; margin-bottom: -10px; }
 
         header { text-align: center; padding: 20px 0; border-bottom: 2px solid var(--primary-color); margin-bottom: 30px; }
-        header h1 { margin-bottom: 5px; }
-        header p { margin-top: 0; font-size: 1.2rem; color: #555; }
+        header h1 { margin-bottom: 5px; font-size: 1.8rem; }
+        header p { margin-top: 0; font-size: 1.1rem; color: #555; }
 
-        .zen-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 50px; }
+        .zen-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 10px; margin-bottom: 40px; }
 
         .zen-item {
             background: var(--card-bg);
-            padding: 15px;
+            padding: 12px;
             text-align: center;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             cursor: pointer;
             font-weight: bold;
             border: 1px solid #ddd;
+            font-size: 0.95rem;
         }
 
         .zen-item:hover { background: #f0e6ff; border-color: var(--primary-color); }
 
-        #detail-view { display: none; background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 50px; }
+        #detail-view { display: none; background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 40px; }
 
         .back-btn { background: #95a5a6; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-bottom: 20px; }
         
         .save-btn { 
             background: var(--save-btn); color: white; border: none; padding: 15px 25px; 
             border-radius: 5px; cursor: pointer; font-size: 1.1rem; width: 100%; 
-            margin-top: 30px; font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 30px; font-weight: bold;
         }
 
         .section-title { color: var(--primary-color); border-left: 5px solid var(--primary-color); padding-left: 10px; margin: 25px 0 10px; }
@@ -68,7 +69,7 @@
             border: 1px solid #ccc;
             border-radius: 8px;
             font-family: inherit;
-            font-size: 1rem;
+            font-size: 1.05rem;
             line-height: 1.6;
             background-color: #fff;
             box-sizing: border-box;
@@ -82,26 +83,33 @@
 
         .audio-controls { margin-bottom: 20px; }
         .audio-row { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; background: #f9f9f9; padding: 10px; border-radius: 8px; border: 1px solid #eee; }
-        .audio-label { font-weight: bold; min-width: 80px; }
-        .icon-btn { border: none; width: 40px; height: 40px; border-radius: 5px; cursor: pointer; color: white; font-size: 1.2rem; }
+        .audio-label { font-weight: bold; min-width: 70px; }
+        .icon-btn { border: none; width: 38px; height: 38px; border-radius: 5px; cursor: pointer; color: white; font-size: 1.1rem; }
 
-        /* 表格樣式 */
-        .summary-section { margin-top: 80px; padding-top: 20px; border-top: 2px dashed #ccc; }
-        table { width: 100%; border-collapse: collapse; background: white; font-size: 0.9rem; margin-top: 15px; }
-        th, td { border: 1px solid var(--table-border); padding: 12px; text-align: left; vertical-align: top; }
+        /* 表格排版優化 */
+        .summary-section { margin-top: 60px; padding-top: 20px; border-top: 2px dashed #ccc; overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; background: white; font-size: 0.95rem; table-layout: fixed; }
+        th, td { border: 1px solid var(--table-border); padding: 12px; vertical-align: top; line-height: 1.5; }
+        
         th { background-color: var(--primary-color); color: white; }
-        tr:nth-child(even) { background-color: #f8f9fa; }
-        .col-id { width: 40px; text-align: center; }
-        .col-name { width: 100px; font-weight: bold; }
+        
+        /* 調整欄位比例：名稱欄縮小，功課欄擴大 */
+        .col-header { width: 90px; font-size: 0.85rem; background-color: #f1f2f6; color: #2f3542; font-weight: bold; text-align: center; }
+        .col-content { width: auto; }
+        
+        tr:nth-child(4n+1), tr:nth-child(4n+2) { background-color: #ffffff; }
+        tr:nth-child(4n+3), tr:nth-child(4n) { background-color: #f8f9fa; }
+
         .pre-wrap { white-space: pre-wrap; word-break: break-all; }
+        .item-title-cell { font-size: 0.9rem; border-bottom: none; color: var(--primary-color); font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="version-tag">Version 1.3</div>
+    <div class="version-tag">Version 1.4</div>
     <header>
-        <h1>佛乘動禪 24 式</h1>
+        <h1>佛乘禪功 24 式</h1>
         <p>心理功課及生理功課</p>
     </header>
 
@@ -145,14 +153,13 @@
     </div>
 
     <div class="summary-section">
-        <h3 class="section-title">目前各招式欄位內容總覽</h3>
+        <h3 class="section-title">全 24 式功課內容總覽</h3>
         <table id="summary-table">
             <thead>
                 <tr>
-                    <th class="col-id">式</th>
-                    <th class="col-name">招式名稱</th>
-                    <th>心理功課</th>
-                    <th>生理功課</th>
+                    <th style="width: 90px;">式別名稱</th>
+                    <th>心理功課內容</th>
+                    <th>生理功課內容</th>
                 </tr>
             </thead>
             <tbody id="summary-body">
@@ -190,20 +197,20 @@
         19:{name:"百步行功", mental:"精進歡喜，篤行門規。", physical:"助益脊椎與減肥。"},
         20:{name:"十度圓修", mental:"十度圓滿。", physical:"加強脊椎、胯骨功能。"},
         21:{name:"天地震動", mental:"實證法身，十方震動。", physical:"以腦神經為主。"},
-        22:{name:"大如意掌前行", mental:"資料整理中", physical:"資料整理中"},
+        22:{name:"大如意掌前行", mental:"待編輯", physical:"待編輯"},
         23:{name:"力化六道", mental:"平等濟度眾生。", physical:"身、心、氣、力一如。"},
         24:{name:"苦行精進", mental:"永不懈怠。", physical:"以腰腿為主。"}
     };
 
-    let savedData = localStorage.getItem('zenDataV1_3') || 
-                    localStorage.getItem('zenDataV1_2') || 
-                    localStorage.getItem('zenDataV1_1');
+    // 嘗試讀取舊資料並遷移 (V1.3 -> V1.4)
+    let savedData = localStorage.getItem('zenKungDataV1_4') || 
+                    localStorage.getItem('zenDataV1_3') || 
+                    localStorage.getItem('zenDataV1_2');
     
     let zenData = savedData ? JSON.parse(savedData) : defaultData;
     let activeId = null;
     let currentAudio = new Audio();
 
-    // 初始化頁面
     function init() {
         renderList();
         renderSummaryTable();
@@ -221,16 +228,14 @@
         });
     }
 
-    // 生成總覽表格
     function renderSummaryTable() {
         const tbody = document.getElementById('summary-body');
         tbody.innerHTML = '';
         Object.keys(defaultData).forEach(id => {
-            const tr = document.createElement('tr');
             const item = zenData[id] || defaultData[id];
+            const tr = document.createElement('tr');
             tr.innerHTML = `
-                <td class="col-id">${id}</td>
-                <td class="col-name">${item.name}</td>
+                <td class="col-header">${id}. ${item.name}</td>
                 <td class="pre-wrap">${item.mental || ""}</td>
                 <td class="pre-wrap">${item.physical || ""}</td>
             `;
@@ -262,10 +267,9 @@
         document.getElementById('edit-steps').value = item.stepsText || defaultData[id]?.stepsText || "";
         document.getElementById('edit-no-qi').value = item.stepsTextNoQi || defaultData[id]?.stepsTextNoQi || "";
 
-        // 強制更新所有 textarea 高度
         setTimeout(() => {
             document.querySelectorAll('textarea').forEach(tx => autoResize(tx));
-        }, 10);
+        }, 50);
         
         window.scrollTo(0,0);
     }
@@ -281,9 +285,9 @@
             zenData[activeId].stepsTextNoQi = document.getElementById('edit-no-qi').value;
         }
 
-        localStorage.setItem('zenDataV1_3', JSON.stringify(zenData));
-        renderSummaryTable(); // 儲存後立即更新下方表格
-        alert(`第 ${activeId} 式儲存完成！總覽表格已更新。`);
+        localStorage.setItem('zenKungDataV1_4', JSON.stringify(zenData));
+        renderSummaryTable();
+        alert(`第 ${activeId} 式已儲存至佛乘禪功資料庫。`);
     }
 
     function showList() {
@@ -302,7 +306,6 @@
 
     function stopAudio() { currentAudio.pause(); currentAudio.currentTime = 0; }
 
-    // 啟動程式
     init();
 </script>
 
