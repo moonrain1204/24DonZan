@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>佛乘禪功 24 式雲端系統 (V3.8)</title>
+    <title>佛乘禪功 24 式雲端系統 (V4.3)</title>
     <style>
         :root {
             --primary-color: #8e44ad;
@@ -44,40 +44,37 @@
         }
 
         .zen-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; margin-bottom: 30px; }
-        .zen-item { background: var(--card-bg); padding: 15px 10px; text-align: center; border-radius: 12px; cursor: pointer; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; justify-content: center; min-height: 80px; }
+        .zen-item { background: var(--card-bg); padding: 15px 10px; text-align: center; border-radius: 12px; cursor: pointer; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.3s; min-height: 60px; display: flex; align-items: center; justify-content: center; }
         .zen-item:hover { border-color: var(--primary-color); background: #fdfaff; transform: translateY(-3px); }
-        .zen-item b { color: var(--primary-color); font-size: 1.05rem; }
+        .zen-title { font-weight: bold; color: var(--text-color); font-size: 1.1rem; }
 
         #detail-view { display: none; background: var(--card-bg); padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .back-btn { background: #95a5a6; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-bottom: 20px; font-weight: bold; }
         
-        .section-title { color: var(--primary-color); border-left: 5px solid var(--primary-color); padding-left: 10px; margin: 25px 0 10px; font-weight: bold; font-size: 1.1rem; }
-        textarea { width: 100%; min-height: 100px; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 1rem; box-sizing: border-box; resize: none; background: #fafafa; transition: 0.3s; }
-        textarea:focus { border-color: var(--primary-color); outline: none; background: #fff; }
+        .section-title { color: var(--primary-color); border-left: 5px solid var(--primary-color); padding-left: 10px; margin: 20px 0 10px; font-weight: bold; }
+        textarea { width: 100%; min-height: 100px; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 1rem; box-sizing: border-box; resize: none; background: #fafafa; }
         
         .special-box { background: #f0f7ff; border: 1px solid #d0e7ff; padding: 15px; border-radius: 10px; margin: 15px 0; }
         .save-btn { background: var(--save-btn); color: white; border: none; padding: 18px; border-radius: 12px; cursor: pointer; font-size: 1.3rem; width: 100%; margin-top: 30px; font-weight: bold; box-shadow: 0 5px 0 #27ae60; transition: 0.1s; }
         .save-btn:active { transform: translateY(3px); box-shadow: 0 2px 0 #27ae60; }
 
-        .table-container { overflow-x: auto; margin-top: 40px; border-radius: 12px; border: 1px solid var(--table-border); }
-        table { width: 100%; border-collapse: collapse; background: white; font-size: 0.9rem; min-width: 650px; }
-        th, td { border: 1px solid var(--table-border); padding: 15px; vertical-align: top; text-align: left; }
-        th { background-color: var(--primary-color); color: white; font-weight: bold; }
-        tr:nth-child(even) { background-color: #fcfcfc; }
+        .table-container { overflow-x: auto; margin-top: 30px; border-radius: 10px; border: 1px solid var(--table-border); }
+        table { width: 100%; border-collapse: collapse; background: white; font-size: 0.85rem; min-width: 600px; }
+        th, td { border: 1px solid var(--table-border); padding: 12px; vertical-align: top; text-align: left; }
+        th { background-color: var(--primary-color); color: white; }
 
-        #hidden_iframe { display: none; }
-        .loading-mask { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.8); z-index: 1000; justify-content: center; align-items: center; font-weight: bold; color: var(--primary-color); flex-direction: column; }
+        .loading-mask { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255,255,255,0.9); z-index: 1000; justify-content: center; align-items: center; flex-direction: column; font-weight: bold; color: var(--primary-color); }
     </style>
 </head>
 <body>
 
 <div id="loader" class="loading-mask">
-    <div style="font-size: 2rem; margin-bottom: 10px;">⏳</div>
+    <div style="font-size: 3rem; margin-bottom: 10px;">⌛</div>
     <div>雲端同步中，請稍候...</div>
 </div>
 
 <div class="container">
-    <div class="version-tag">Version 3.8 (Data Restored)</div>
+    <div class="version-tag">Version 4.3</div>
     <header>
         <h1>佛乘禪功 24 式</h1>
         <p>心理與生理功課同步系統</p>
@@ -85,7 +82,7 @@
 
     <div id="main-list-container">
         <div class="master-player">
-            <a href="https://docs.google.com/spreadsheets/d/1sRdGK99bjGdPZTxf9oxvHg7JbIR635CEzTq5IrFCn_A/edit" target="_blank" class="btn-sheet-mini" title="打開試算表">📊</a>
+            <a href="https://docs.google.com/spreadsheets/d/1sRdGK99bjGdPZTxf9oxvHg7JbIR635CEzTq5IrFCn_A/edit" target="_blank" class="btn-sheet-mini">📊</a>
             <span style="font-weight:bold; color:var(--primary-color)">🧘 動禪心法導引</span>
             <div class="player-box">
                 <button class="audio-btn" style="background:var(--play-color)" onclick="playMaster()">▶</button>
@@ -96,13 +93,14 @@
         <div id="main-list" class="zen-list"></div>
         
         <div class="table-container">
-            <h3 class="section-title">全 24 式內容摘要 (本地紀錄)</h3>
+            <h3 class="section-title">全 24 式內容摘要 (本地)</h3>
             <table id="summary-table">
                 <thead>
                     <tr>
                         <th style="width:50px">式</th>
-                        <th style="width:140px">名稱</th>
-                        <th>功課內容</th>
+                        <th style="width:120px">名稱</th>
+                        <th>心理功課</th>
+                        <th>生理功課</th>
                     </tr>
                 </thead>
                 <tbody id="summary-body"></tbody>
@@ -112,7 +110,7 @@
 
     <div id="detail-view">
         <button class="back-btn" onclick="showList()">← 返回列表</button>
-        <h2 id="detail-title" style="color:var(--primary-color); margin-top:0;"></h2>
+        <h2 id="detail-title" style="color:var(--primary-color);"></h2>
 
         <div id="normal-player-ui" class="player-box">
             <span>🎵 播放導引：</span>
@@ -120,43 +118,51 @@
             <button class="audio-btn" style="background:var(--stop-color)" onclick="stopAudio()">■</button>
         </div>
 
-        <form id="zenForm" target="hidden_iframe" method="POST">
-            <input type="hidden" name="entry.654147474" id="submit-name">
+        <form id="zenForm" action="https://docs.google.com/forms/d/e/1FAIpQLSc-AdHXVh3Bx4Z4uJ0koDLgTnlj0hVQ2nwaMKd-4GW9dlysGQ/formResponse" method="POST" target="hidden_iframe">
+            
+            <input type="hidden" name="entry.579401763" id="submit-name">
             
             <div class="section-title">心理功課</div>
-            <textarea name="entry.427101914" id="edit-mental" oninput="autoResize(this)"></textarea>
+            <textarea name="entry.1469082531" id="edit-mental" oninput="autoResize(this)"></textarea>
 
             <div class="section-title">生理功課</div>
-            <textarea name="entry.1368767787" id="edit-physical" oninput="autoResize(this)"></textarea>
+            <textarea name="entry.1119799636" id="edit-physical" oninput="autoResize(this)"></textarea>
 
             <div class="section-title">注意事項</div>
-            <textarea name="entry.1286090316" id="edit-note" placeholder="備註或提醒..." oninput="autoResize(this)"></textarea>
+            <textarea name="entry.1741120050" id="edit-note" placeholder="填寫注意事項..." oninput="autoResize(this)"></textarea>
 
             <div id="special-qigong-ui" style="display:none;">
                 <div class="special-box">
                     <div style="font-weight:bold; color:var(--accent-blue); margin-bottom:10px;">⚡ 帶氣版模式</div>
-                    <textarea name="entry.117702749" id="edit-formula-qi" placeholder="填寫帶氣版口訣..." oninput="autoResize(this)"></textarea>
+                    <div class="player-box">
+                        <button type="button" class="audio-btn" style="background:var(--accent-blue)" onclick="playAudio('qi')">▶</button>
+                        <button type="button" class="audio-btn" style="background:var(--stop-color)" onclick="stopAudio()">■</button>
+                    </div>
+                    <textarea name="entry.1691238477" id="edit-formula-qi" placeholder="填寫帶氣版口訣..." oninput="autoResize(this)"></textarea>
                 </div>
                 <div class="special-box" style="background:#fffcf0; border-color:#ffeaa7;">
                     <div style="font-weight:bold; color:#d6a317; margin-bottom:10px;">🌿 不帶氣版模式</div>
-                    <textarea name="entry.2087624505" id="edit-formula-noqi" placeholder="填寫不帶氣版口訣..." oninput="autoResize(this)"></textarea>
+                    <div class="player-box">
+                        <button type="button" class="audio-btn" style="background:#f1c40f" onclick="playAudio('no-qi')">▶</button>
+                        <button type="button" class="audio-btn" style="background:var(--stop-color)" onclick="stopAudio()">■</button>
+                    </div>
+                    <textarea name="entry.1206109964" id="edit-formula-noqi" placeholder="填寫不帶氣版口訣..." oninput="autoResize(this)"></textarea>
                 </div>
             </div>
 
             <div id="normal-formula-ui">
                 <div class="section-title">動作口訣</div>
                 <textarea id="edit-formula" placeholder="填寫詳細口訣..." oninput="syncFormula(this.value); autoResize(this)"></textarea>
-                <input type="hidden" name="entry.117702749" id="submit-formula-hidden">
+                <input type="hidden" name="entry.1691238477" id="submit-formula-hidden">
             </div>
 
-            <button type="button" class="save-btn" onclick="submitZenForm()">💾 儲存並同步至雲端</button>
+            <button type="button" class="save-btn" onclick="saveData()">💾 儲存並同步至雲端</button>
         </form>
         <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
     </div>
 </div>
 
 <script>
-    const CONFIG = { formAction: "https://docs.google.com/forms/d/e/1FAIpQLSc-AdHXVh3Bx4Z4uJ0koDLgTnlj0hVQ2nwaMKd-4GW9dlysGQ/formResponse" };
     const qiGongIds = [3, 7, 9];
     const baseNames = ["","禮佛拜師","法輪常轉","身心一如","慧眼觀空","空即是色","天耳圓通","排除四大","鼻聞法香","頂天立地","笑口開開","舌吐蓮華","橫出三界","降龍伏虎","卓立特行","六度圓修","抖落根塵","初段總結式","行腳四方","百步行功","十度圓修","天地震動","大如意掌前行","力化六道","苦行精進"];
 
@@ -187,13 +193,20 @@
         24: { m: "菩薩行者，苦樂不著，自覺覺他，弘法利生，永不懈怠。", p: "以腰腿為主，加強和協全身機能功用之行功。" }
     };
 
-    let zenData = JSON.parse(localStorage.getItem('zenSyncV3.8')) || {};
+    let zenData = JSON.parse(localStorage.getItem('zenSyncV4.3')) || {};
     let activeId = null;
     let currentAudio = new Audio();
     let masterAudio = new Audio('動禪心法.wav');
 
     function init() {
+        const list = document.getElementById('main-list');
         for(let i=1; i<=24; i++) {
+            const div = document.createElement('div');
+            div.className = 'zen-item';
+            div.innerHTML = `<div class="zen-title">${i}. ${baseNames[i]}</div>`;
+            div.onclick = () => showDetail(i);
+            list.appendChild(div);
+
             if(!zenData[i]) {
                 zenData[i] = { 
                     mental: initialContent[i]?.m || "", 
@@ -202,20 +215,7 @@
                 };
             }
         }
-        renderList();
         renderSummaryTable();
-    }
-
-    function renderList() {
-        const list = document.getElementById('main-list');
-        list.innerHTML = '';
-        for(let i=1; i<=24; i++) {
-            const div = document.createElement('div');
-            div.className = 'zen-item';
-            div.innerHTML = `<b>${i}. ${baseNames[i]}</b>`;
-            div.onclick = () => showDetail(i);
-            list.appendChild(div);
-        }
     }
 
     function renderSummaryTable() {
@@ -224,14 +224,8 @@
         for(let i=1; i<=24; i++) {
             const d = zenData[i];
             const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td style="text-align:center">${i}</td>
-                <td><b>${baseNames[i]}</b></td>
-                <td>
-                    <div style="margin-bottom:5px"><b>心：</b>${d.mental || '--'}</div>
-                    <div style="color:#666"><b>生：</b>${d.physical || '--'}</div>
-                </td>
-            `;
+            tr.innerHTML = `<td>${i}</td><td><b>${baseNames[i]}</b></td>
+                            <td>${d.mental}</td><td>${d.physical}</td>`;
             tbody.appendChild(tr);
         }
     }
@@ -251,55 +245,56 @@
         if(qiGongIds.includes(id)) {
             document.getElementById('special-qigong-ui').style.display = 'block';
             document.getElementById('normal-formula-ui').style.display = 'none';
+            document.getElementById('normal-player-ui').style.display = 'none';
             document.getElementById('edit-formula-qi').value = d.formulaQi || "";
             document.getElementById('edit-formula-noqi').value = d.formulaNoQi || "";
         } else {
             document.getElementById('special-qigong-ui').style.display = 'none';
             document.getElementById('normal-formula-ui').style.display = 'block';
+            document.getElementById('normal-player-ui').style.display = 'flex';
             document.getElementById('edit-formula').value = d.formula || "";
             document.getElementById('submit-formula-hidden').value = d.formula || "";
         }
-        window.scrollTo(0,0);
         setTimeout(() => document.querySelectorAll('textarea').forEach(autoResize), 100);
+        window.scrollTo(0,0);
     }
 
     function syncFormula(val) { document.getElementById('submit-formula-hidden').value = val; }
+    function showList() { stopAudio(); document.getElementById('main-list-container').style.display='block'; document.getElementById('detail-view').style.display='none'; }
+    function playMaster() { stopAudio(); masterAudio.play().catch(() => alert("播放失敗：動禪心法.wav")); }
+    function playAudio(type) {
+        stopAudio();
+        let fileName = baseNames[activeId] + (type === 'no-qi' ? "2.mp3" : ".mp3");
+        currentAudio.src = fileName;
+        currentAudio.play().catch(() => alert("找不到音檔：" + fileName));
+    }
+    function stopAudio() { currentAudio.pause(); currentAudio.currentTime = 0; masterAudio.pause(); masterAudio.currentTime = 0; }
 
-    function submitZenForm() {
+    function saveData() {
         document.getElementById('loader').style.display = 'flex';
-        
         const d = zenData[activeId];
         d.mental = document.getElementById('edit-mental').value;
         d.physical = document.getElementById('edit-physical').value;
         d.note = document.getElementById('edit-note').value;
+        
         if(qiGongIds.includes(activeId)) {
             d.formulaQi = document.getElementById('edit-formula-qi').value;
             d.formulaNoQi = document.getElementById('edit-formula-noqi').value;
         } else {
             d.formula = document.getElementById('edit-formula').value;
         }
-        localStorage.setItem('zenSyncV3.8', JSON.stringify(zenData));
 
-        const form = document.getElementById('zenForm');
-        form.action = CONFIG.formAction;
-        form.submit();
-        
+        localStorage.setItem('zenSyncV4.3', JSON.stringify(zenData));
+        document.getElementById('zenForm').submit();
+
         setTimeout(() => {
             document.getElementById('loader').style.display = 'none';
-            alert('儲存完成！已成功更新至雲端試算表。');
+            alert("儲存完成！資料已同步。");
             renderSummaryTable();
+            showList();
         }, 1500);
     }
 
-    function showList() { stopAudio(); document.getElementById('main-list-container').style.display='block'; document.getElementById('detail-view').style.display='none'; }
-    function playMaster() { stopAudio(); masterAudio.play().catch(() => alert("找不到音檔：動禪心法.wav")); }
-    function playAudio(type) {
-        stopAudio();
-        let name = baseNames[activeId] + (type === 'no-qi' ? "2.mp3" : ".mp3");
-        currentAudio.src = encodeURIComponent(name);
-        currentAudio.play().catch(e => alert("找不到音檔：" + name));
-    }
-    function stopAudio() { currentAudio.pause(); currentAudio.currentTime = 0; masterAudio.pause(); masterAudio.currentTime = 0; }
     function autoResize(el) { el.style.height = 'auto'; el.style.height = (el.scrollHeight) + 'px'; }
     init();
 </script>
