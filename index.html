@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>佛乘禪功 24 式雲端系統 (V2.5)</title>
+    <title>佛乘禪功 24 式雲端系統 (V2.7)</title>
     <style>
         :root {
             --primary-color: #8e44ad;
@@ -36,28 +36,28 @@
         .btn-sheet { background: var(--sheet-color); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; margin-bottom: 20px; font-weight: bold; width: 100%; justify-content: center; }
 
         .zen-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-bottom: 30px; }
-        .zen-item { background: var(--card-bg); padding: 15px; text-align: center; border-radius: 10px; cursor: pointer; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .zen-item:hover { border-color: var(--primary-color); background: #fdfaff; }
-        .zen-item .item-title { font-weight: bold; display: block; margin-bottom: 8px; }
+        .zen-item { background: var(--card-bg); padding: 20px 15px; text-align: center; border-radius: 10px; cursor: pointer; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.3s; }
+        .zen-item:hover { border-color: var(--primary-color); background: #fdfaff; transform: translateY(-2px); }
+        .zen-item .item-title { font-weight: bold; display: block; }
 
         #detail-view { display: none; background: var(--card-bg); padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .back-btn { background: #95a5a6; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-bottom: 15px; }
         .section-title { color: var(--primary-color); border-left: 5px solid var(--primary-color); padding-left: 10px; margin: 20px 0 10px; font-weight: bold; }
-        textarea { width: 100%; min-height: 60px; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 1rem; box-sizing: border-box; resize: none; overflow: hidden; background: #fafafa; }
+        textarea { width: 100%; min-height: 80px; padding: 12px; border: 1px solid #ccc; border-radius: 8px; font-family: inherit; font-size: 1rem; box-sizing: border-box; resize: none; overflow: hidden; background: #fafafa; }
         
         .special-box { background: #f0f7ff; border: 1px solid #d0e7ff; padding: 15px; border-radius: 10px; margin: 15px 0; }
         .save-btn { background: var(--save-btn); color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; width: 100%; margin-top: 25px; font-weight: bold; box-shadow: 0 4px 0 #27ae60; }
 
-        .table-container { overflow-x: auto; margin-top: 30px; }
-        table { width: 100%; border-collapse: collapse; background: white; font-size: 0.85rem; min-width: 600px; }
-        th, td { border: 1px solid var(--table-border); padding: 8px; vertical-align: top; }
+        .table-container { overflow-x: auto; margin-top: 30px; border-radius: 10px; }
+        table { width: 100%; border-collapse: collapse; background: white; font-size: 0.9rem; min-width: 600px; }
+        th, td { border: 1px solid var(--table-border); padding: 15px 12px; vertical-align: top; text-align: left; }
         th { background-color: var(--primary-color); color: white; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="version-tag">Version 2.5 (Audio Format Updated)</div>
+    <div class="version-tag">Version 2.7 (Simplified Summary Table)</div>
     <header>
         <h1>佛乘禪功 24 式</h1>
         <p>心理與生理功課同步系統</p>
@@ -76,10 +76,15 @@
         <div id="main-list" class="zen-list"></div>
         
         <div class="table-container">
-            <h3 class="section-title">全 24 式內容總覽</h3>
+            <h3 class="section-title">全 24 式功課內容總覽</h3>
             <table id="summary-table">
                 <thead>
-                    <tr><th style="width:50px">式</th><th>名稱</th><th>功課摘要</th><th>備註/口訣</th></tr>
+                    <tr>
+                        <th style="width:50px">式</th>
+                        <th style="width:120px">名稱</th>
+                        <th>心理功課</th>
+                        <th>生理功課</th>
+                    </tr>
                 </thead>
                 <tbody id="summary-body"></tbody>
             </table>
@@ -91,7 +96,7 @@
         <h2 id="detail-title" style="margin:0"></h2>
 
         <div id="normal-player-ui" class="player-box">
-            <span>🎵 播放導引：</span>
+            <span>🎵 播放導引 (.mp3)：</span>
             <button class="audio-btn" style="background:var(--play-color)" onclick="playAudio('normal')">▶</button>
             <button class="audio-btn" style="background:var(--stop-color)" onclick="stopAudio()">■</button>
         </div>
@@ -103,7 +108,7 @@
         <textarea id="edit-physical" oninput="autoResize(this)"></textarea>
 
         <div class="section-title">注意事項</div>
-        <textarea id="edit-note" placeholder="填寫注意事項..." oninput="autoResize(this)"></textarea>
+        <textarea id="edit-note" placeholder="請填寫此式的注意事項..." oninput="autoResize(this)"></textarea>
 
         <div id="special-qigong-ui" style="display:none;">
             <div class="special-box">
@@ -126,7 +131,7 @@
 
         <div id="normal-formula-ui">
             <div class="section-title">動作口訣</div>
-            <textarea id="edit-formula" placeholder="填寫詳細口訣..." oninput="autoResize(this)"></textarea>
+            <textarea id="edit-formula" placeholder="請填寫詳細動作口訣..." oninput="autoResize(this)"></textarea>
         </div>
 
         <button class="save-btn" onclick="saveData()">💾 儲存並同步至雲端</button>
@@ -144,16 +149,48 @@
     };
 
     const qiGongIds = [3, 7, 9];
-    let zenData = JSON.parse(localStorage.getItem('zenSyncV2.5')) || {};
+    const baseNames = ["","禮佛拜師","法輪常轉","身心一如","慧眼觀空","空即是色","天耳圓通","排除四大","鼻聞法香","頂天立地","笑口常開","舌吐蓮華","橫出三界","降龍伏虎","卓立特行","六度圓修","抖落根塵","初段總結式","行腳四方","百步行功","十度圓修","天地震動","大如意掌前行","力化六道","苦行精進"];
+
+    const initialZenData = {
+        1: { mental: "以五寶之理德為師，發大宏願行，尊師重道，孝敬親長，建立以門規為依止的倫理秩序。", physical: "(1) 尊師重道，倫理秩序禮節之遵守。(2) 活動脊椎等關節，對脊椎、關節、腸胃有助益之效。並可對治我慢，培養恭敬心與謙和心。" },
+        2: { mental: "世出世法，圓通自在，以四攝法普度眾生。", physical: "通和全身氣脈，對關節、風濕及內臟等慢性病有助療之益。" },
+        3: { mental: "真空即是妙有，身心一如，理事不二，慈悲平等，四無量心之行持。", physical: "(1) 以腹呼吸為主，加強腰、腎及全身機能功用之行功。(2) 有助治療腎虛、腸胃病及身弱引起的慢性病。" },
+        4: { mental: "伏斷三惑，真空妙有一如。", physical: "增強視力及腦力功能之行功。" },
+        5: { mental: "圓證法身，十方三世一心如如，故真空仍是妙有。", physical: "(1) 為加強和協全身各部機能功用之行功。(2) 對風濕、神經痛、腸胃病、肺、肝等慢性病有助療之效。" },
+        6: { mental: "明辨是非、善惡、公私之界，諸惡莫作，眾善奉行，反聞聞自性，方便即是究竟。", physical: "增強聽力、腦力功能之行功。" },
+        7: { mental: "地水火風，四大調和，身強氣和，心淨方易修行。", physical: "以肺部、內臟為主，加強全身機能功用之行功，對一切內科慢性病有所助益。" },
+        8: { mental: "悟前依法修，悟後法是塵，山窮水盡處，柳暗花明。", physical: "增強鼻部、呼吸器官及腦部功能之行功。" },
+        9: { mental: "道德事功，志與佛齊，悲智願行，一行圓修，能如是，可望作天人師。", physical: "以頭為主，貫和全身氣脈之行功。" },
+        10: { mental: "一音說法，十方普聞，布施、愛語、利行、同事為菩薩化眾之四攝法。", physical: "以呼吸系統、食道為主，加強內臟功能發聲煉氣對肺、心、肝、腸胃、腦部等慢性病有助療之益處。" },
+        11: { mental: "兩舌、惡口、妄言、綺語為敗德之行，故言必正。", physical: "以神經系統為主，加強呼吸系統、腦部及全身機能功用之行功。" },
+        12: { mental: "念佛為往生淨土之大法，一聲佛號，戒、定、慧具足，當下西方淨土在自性中。", physical: "以足為主，加強和協全身氣能功用之行功，並有益打通兩腿氣脈。" },
+        13: { mental: "貪、嗔、癡三毒，為生死輪迴之因，定慧等持，當下煩惱即是菩提。", physical: "身、心、氣、力合用，加強全身機能功用之行功。對脊椎、關節具強化功用，並易於打通前後二脈。" },
+        14: { mental: "志願作佛，依法修行，不為世間名聞利養，以至生死而移其心志。", physical: "以足為主，加強和協全身機能功用之行功。" },
+        15: { mental: "六度一行修，萬德由心圓，事理不二，證道之門。", physical: "(1) 身、心、氣、力合一，加強和協全身機能功用之行功。(2) 對肝、腎、腸、胃、肩膀與胯部關節等有益之行功。" },
+        16: { mental: "迴脫根塵，轉識成智，以入佛之境地。", physical: "以神經系統為主，加強和協全身機能功用之行功。" },
+        17: { mental: "鬆、慢、柔、空，有念進入無念，先破生理執著，進而破心理執著。", physical: "身、心、氣作最圓滿的和協，以利打通前後脈、百脈、百竅。" },
+        18: { mental: "初發心菩薩，廣參良師益友，以廣進德修業之功。", physical: "以足為主，身、心、氣、力合一、動靜、旋轉、易位、速度、重心平衡、變易之行功。" },
+        19: { mental: "精進歡喜，篤行門規，乃可成就佛道。", physical: "(1) 對脊椎、腦部及通下行氣有所助益之行功。(2) 減肥。" },
+        20: { mental: "六度、方便度、願度、力度、智度等十度圓滿。", physical: "(1) 加強脊椎、胯骨、手腳關節、腦部功能之行功。(2) 減肥。" },
+        21: { mental: "一多圓融，十方三世萬法統一於一己之法身中，故實證法身，十方震動。", physical: "以腦神經為主，加強和協全身機能功用之行功。" },
+        22: { mental: "", physical: "" },
+        23: { mental: "菩薩以人天師褓自任，體、相、智、德、理、事、能、用、時、空十大一如，平等濟度眾生。", physical: "身、心、氣、力一如，能用合一、變用之行功。" },
+        24: { mental: "菩薩行者，苦樂不著，自覺覺他，弘法利生，永不懈怠。", physical: "以腰腿為主，加強和協全身機能功用之行功。" }
+    };
+
+    let zenData = JSON.parse(localStorage.getItem('zenSyncV2.7')) || {};
     let activeId = null;
     let currentAudio = new Audio();
-    let masterAudio = new Audio('動禪心法.wav'); // 更正為 .wav
-
-    const baseNames = ["","禮佛拜師","法輪常轉","身心一如","慧眼觀空","空即是色","天耳圓通","排除四大","鼻聞法香","頂天立地","笑口常開","舌吐蓮華","橫出三界","降龍伏虎","卓立特行","六度圓修","抖落根塵","初段總結式","行腳四方","百步行功","十度圓修","天地震動","大如意掌前行","力化六道","苦行精進"];
+    let masterAudio = new Audio('動禪心法.wav');
 
     function init() {
         for(let i=1; i<=24; i++) {
-            if(!zenData[i]) zenData[i] = { mental: "", physical: "", note: "", formula: "", formulaQi: "", formulaNoQi: "" };
+            if(!zenData[i]) {
+                zenData[i] = { mental: initialZenData[i]?.mental || "", physical: initialZenData[i]?.physical || "", note: "", formula: "", formulaQi: "", formulaNoQi: "" };
+            } else {
+                if(!zenData[i].mental) zenData[i].mental = initialZenData[i]?.mental || "";
+                if(!zenData[i].physical) zenData[i].physical = initialZenData[i]?.physical || "";
+            }
         }
         renderList();
         renderSummaryTable();
@@ -166,10 +203,7 @@
             if(i===0) return;
             const div = document.createElement('div');
             div.className = 'zen-item';
-            div.innerHTML = `<span class="item-title">${i}. ${name}</span>
-                             <div class="player-box" onclick="event.stopPropagation()">
-                                <button class="audio-btn" style="background:var(--play-color); width:28px; height:28px; font-size:0.8rem" onclick="playAudio('normal', ${i})">▶</button>
-                             </div>`;
+            div.innerHTML = `<span class="item-title">${i}. ${name}</span>`;
             div.onclick = () => showDetail(i);
             list.appendChild(div);
         });
@@ -182,8 +216,8 @@
             const d = zenData[i];
             const tr = document.createElement('tr');
             tr.innerHTML = `<td>${i}</td><td><b>${baseNames[i]}</b></td>
-                            <td><small>心：${d.mental.substring(0,12)}..</small><br><small>生：${d.physical.substring(0,12)}..</small></td>
-                            <td><small>註：${d.note.substring(0,10)}</small><br><small>訣：${qiGongIds.includes(i) ? '雙軌模式' : d.formula.substring(0,10)}</small></td>`;
+                            <td>${d.mental}</td>
+                            <td>${d.physical}</td>`;
             tbody.appendChild(tr);
         }
     }
@@ -222,12 +256,8 @@
     function playAudio(type, id = activeId) {
         stopAudio();
         let fileName = baseNames[id];
-        // 格式邏輯：全部採用 .mp3
-        if(type === 'no-qi') {
-            fileName += "2.mp3"; 
-        } else {
-            fileName += ".mp3"; 
-        }
+        if(type === 'no-qi') fileName += "2.mp3"; 
+        else fileName += ".mp3"; 
         currentAudio.src = fileName;
         currentAudio.play().catch(() => alert("找不到音檔：" + fileName));
     }
@@ -251,7 +281,7 @@
             d.formula = document.getElementById('edit-formula').value;
         }
 
-        localStorage.setItem('zenSyncV2.5', JSON.stringify(zenData));
+        localStorage.setItem('zenSyncV2.7', JSON.stringify(zenData));
 
         const p = new URLSearchParams();
         p.append(CONFIG.entryID, `${activeId}. ${baseNames[activeId]}`);
@@ -261,7 +291,7 @@
         p.append(CONFIG.entryFormula, d.formula);
 
         fetch(`https://docs.google.com/forms/d/e/${CONFIG.formID}/formResponse`, { method: 'POST', mode: 'no-cors', body: p });
-        alert("儲存成功！");
+        alert("儲存完成！已更新本地與雲端資料。");
         renderSummaryTable();
     }
 
