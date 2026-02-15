@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>佛乘禪功 24 式 (V1.4)</title>
+    <title>佛乘禪功 24 式 (V1.5)</title>
     <style>
         :root {
             --primary-color: #8e44ad;
@@ -86,28 +86,24 @@
         .audio-label { font-weight: bold; min-width: 70px; }
         .icon-btn { border: none; width: 38px; height: 38px; border-radius: 5px; cursor: pointer; color: white; font-size: 1.1rem; }
 
-        /* 表格排版優化 */
         .summary-section { margin-top: 60px; padding-top: 20px; border-top: 2px dashed #ccc; overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; background: white; font-size: 0.95rem; table-layout: fixed; }
         th, td { border: 1px solid var(--table-border); padding: 12px; vertical-align: top; line-height: 1.5; }
         
-        th { background-color: var(--primary-color); color: white; }
+        th { background-color: var(--primary-color); color: white; text-align: center; }
         
-        /* 調整欄位比例：名稱欄縮小，功課欄擴大 */
         .col-header { width: 90px; font-size: 0.85rem; background-color: #f1f2f6; color: #2f3542; font-weight: bold; text-align: center; }
-        .col-content { width: auto; }
         
         tr:nth-child(4n+1), tr:nth-child(4n+2) { background-color: #ffffff; }
         tr:nth-child(4n+3), tr:nth-child(4n) { background-color: #f8f9fa; }
 
         .pre-wrap { white-space: pre-wrap; word-break: break-all; }
-        .item-title-cell { font-size: 0.9rem; border-bottom: none; color: var(--primary-color); font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="version-tag">Version 1.4</div>
+    <div class="version-tag">Version 1.5</div>
     <header>
         <h1>佛乘禪功 24 式</h1>
         <p>心理功課及生理功課</p>
@@ -158,8 +154,8 @@
             <thead>
                 <tr>
                     <th style="width: 90px;">式別名稱</th>
-                    <th>心理功課內容</th>
-                    <th>生理功課內容</th>
+                    <th>心理功課</th>
+                    <th>生理功課</th>
                 </tr>
             </thead>
             <tbody id="summary-body">
@@ -197,13 +193,14 @@
         19:{name:"百步行功", mental:"精進歡喜，篤行門規。", physical:"助益脊椎與減肥。"},
         20:{name:"十度圓修", mental:"十度圓滿。", physical:"加強脊椎、胯骨功能。"},
         21:{name:"天地震動", mental:"實證法身，十方震動。", physical:"以腦神經為主。"},
-        22:{name:"大如意掌前行", mental:"待編輯", physical:"待編輯"},
+        22:{name:"大如意掌前行", mental:"", physical:""},
         23:{name:"力化六道", mental:"平等濟度眾生。", physical:"身、心、氣、力一如。"},
         24:{name:"苦行精進", mental:"永不懈怠。", physical:"以腰腿為主。"}
     };
 
-    // 嘗試讀取舊資料並遷移 (V1.3 -> V1.4)
-    let savedData = localStorage.getItem('zenKungDataV1_4') || 
+    // 遷移邏輯
+    let savedData = localStorage.getItem('zenKungDataV1_5') || 
+                    localStorage.getItem('zenKungDataV1_4') || 
                     localStorage.getItem('zenDataV1_3') || 
                     localStorage.getItem('zenDataV1_2');
     
@@ -285,9 +282,9 @@
             zenData[activeId].stepsTextNoQi = document.getElementById('edit-no-qi').value;
         }
 
-        localStorage.setItem('zenKungDataV1_4', JSON.stringify(zenData));
+        localStorage.setItem('zenKungDataV1_5', JSON.stringify(zenData));
         renderSummaryTable();
-        alert(`第 ${activeId} 式已儲存至佛乘禪功資料庫。`);
+        alert(`第 ${activeId} 式已更新至 V1.5。`);
     }
 
     function showList() {
