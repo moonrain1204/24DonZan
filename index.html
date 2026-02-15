@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>佛乘禪功 24 式雲端系統 (V2.4)</title>
+    <title>佛乘禪功 24 式雲端系統 (V2.5)</title>
     <style>
         :root {
             --primary-color: #8e44ad;
@@ -25,6 +25,11 @@
         header { text-align: center; padding: 15px 0; border-bottom: 2px solid var(--primary-color); margin-bottom: 20px; }
         header h1 { margin: 0; font-size: 1.8rem; }
         
+        .master-player {
+            background: #fff; border: 2px solid var(--primary-color); border-radius: 15px;
+            padding: 15px; margin-bottom: 25px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
         .player-box { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 10px; margin: 10px 0; display: flex; align-items: center; gap: 10px; justify-content: center; }
         .audio-btn { border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
         
@@ -52,20 +57,29 @@
 <body>
 
 <div class="container">
-    <div class="version-tag">Version 2.4 (Audio Naming Unified)</div>
+    <div class="version-tag">Version 2.5 (Audio Format Updated)</div>
     <header>
         <h1>佛乘禪功 24 式</h1>
         <p>心理與生理功課同步系統</p>
     </header>
 
     <div id="main-list-container">
-        <a href="https://docs.google.com/spreadsheets/d/1sRdGK99bjGdPZTxf9oxvHg7JbIR635CEzTq5IrFCn_A/edit" target="_blank" class="btn-sheet">📊 打開雲端試算表</a>
+        <div class="master-player">
+            <span style="font-weight:bold; color:var(--primary-color)">🧘 動禪心法導引 (.wav)</span>
+            <div class="player-box">
+                <button class="audio-btn" style="background:var(--play-color)" onclick="playMaster()">▶</button>
+                <button class="audio-btn" style="background:var(--stop-color)" onclick="stopAudio()">■</button>
+            </div>
+            <a href="https://docs.google.com/spreadsheets/d/1sRdGK99bjGdPZTxf9oxvHg7JbIR635CEzTq5IrFCn_A/edit" target="_blank" class="btn-sheet">📊 打開雲端試算表</a>
+        </div>
+
         <div id="main-list" class="zen-list"></div>
+        
         <div class="table-container">
             <h3 class="section-title">全 24 式內容總覽</h3>
             <table id="summary-table">
                 <thead>
-                    <tr><th style="width:50px">式</th><th>名稱</th><th>功課重點摘要</th><th>備註/口訣</th></tr>
+                    <tr><th style="width:50px">式</th><th>名稱</th><th>功課摘要</th><th>備註/口訣</th></tr>
                 </thead>
                 <tbody id="summary-body"></tbody>
             </table>
@@ -89,11 +103,11 @@
         <textarea id="edit-physical" oninput="autoResize(this)"></textarea>
 
         <div class="section-title">注意事項</div>
-        <textarea id="edit-note" placeholder="請填寫此式的注意事項..." oninput="autoResize(this)"></textarea>
+        <textarea id="edit-note" placeholder="填寫注意事項..." oninput="autoResize(this)"></textarea>
 
         <div id="special-qigong-ui" style="display:none;">
             <div class="special-box">
-                <div style="font-weight:bold; color:var(--accent-blue); margin-bottom:10px;">⚡ 帶氣版模式 (範例：名稱.mp3)</div>
+                <div style="font-weight:bold; color:var(--accent-blue); margin-bottom:10px;">⚡ 帶氣版模式 (名稱.mp3)</div>
                 <div class="player-box">
                     <button class="audio-btn" style="background:var(--accent-blue)" onclick="playAudio('qi')">▶</button>
                     <button class="audio-btn" style="background:var(--stop-color)" onclick="stopAudio()">■</button>
@@ -101,7 +115,7 @@
                 <textarea id="edit-formula-qi" placeholder="帶氣版口訣..." oninput="autoResize(this)"></textarea>
             </div>
             <div class="special-box" style="background:#fffcf0; border-color:#ffeaa7;">
-                <div style="font-weight:bold; color:#d6a317; margin-bottom:10px;">🌿 不帶氣版模式 (範例：名稱2.mp3)</div>
+                <div style="font-weight:bold; color:#d6a317; margin-bottom:10px;">🌿 不帶氣版模式 (名稱2.mp3)</div>
                 <div class="player-box">
                     <button class="audio-btn" style="background:#f1c40f" onclick="playAudio('no-qi')">▶</button>
                     <button class="audio-btn" style="background:var(--stop-color)" onclick="stopAudio()">■</button>
@@ -112,7 +126,7 @@
 
         <div id="normal-formula-ui">
             <div class="section-title">動作口訣</div>
-            <textarea id="edit-formula" placeholder="請填寫詳細口訣..." oninput="autoResize(this)"></textarea>
+            <textarea id="edit-formula" placeholder="填寫詳細口訣..." oninput="autoResize(this)"></textarea>
         </div>
 
         <button class="save-btn" onclick="saveData()">💾 儲存並同步至雲端</button>
@@ -125,15 +139,16 @@
         entryID: "entry.654147474",
         entryMental: "entry.427101914",
         entryPhysical: "entry.1368767787",
-        // 提醒：請記得手動替換下方對應表單新增欄位的 ID
         entryNote: "entry.NOTE_ID", 
         entryFormula: "entry.FORMULA_ID"
     };
 
     const qiGongIds = [3, 7, 9];
-    let zenData = JSON.parse(localStorage.getItem('zenSyncV2.4')) || {};
+    let zenData = JSON.parse(localStorage.getItem('zenSyncV2.5')) || {};
     let activeId = null;
     let currentAudio = new Audio();
+    let masterAudio = new Audio('動禪心法.wav'); // 更正為 .wav
+
     const baseNames = ["","禮佛拜師","法輪常轉","身心一如","慧眼觀空","空即是色","天耳圓通","排除四大","鼻聞法香","頂天立地","笑口常開","舌吐蓮華","橫出三界","降龍伏虎","卓立特行","六度圓修","抖落根塵","初段總結式","行腳四方","百步行功","十度圓修","天地震動","大如意掌前行","力化六道","苦行精進"];
 
     function init() {
@@ -167,7 +182,7 @@
             const d = zenData[i];
             const tr = document.createElement('tr');
             tr.innerHTML = `<td>${i}</td><td><b>${baseNames[i]}</b></td>
-                            <td><small>心：${d.mental.substring(0,15)}...</small><br><small>生：${d.physical.substring(0,15)}...</small></td>
+                            <td><small>心：${d.mental.substring(0,12)}..</small><br><small>生：${d.physical.substring(0,12)}..</small></td>
                             <td><small>註：${d.note.substring(0,10)}</small><br><small>訣：${qiGongIds.includes(i) ? '雙軌模式' : d.formula.substring(0,10)}</small></td>`;
             tbody.appendChild(tr);
         }
@@ -202,19 +217,25 @@
 
     function showList() { stopAudio(); document.getElementById('main-list-container').style.display='block'; document.getElementById('detail-view').style.display='none'; }
 
+    function playMaster() { stopAudio(); masterAudio.play().catch(() => alert("找不到音檔：動禪心法.wav")); }
+
     function playAudio(type, id = activeId) {
         stopAudio();
         let fileName = baseNames[id];
+        // 格式邏輯：全部採用 .mp3
         if(type === 'no-qi') {
-            fileName += "2.mp3"; // 例如：身心一如2.mp3
+            fileName += "2.mp3"; 
         } else {
-            fileName += ".mp3";  // 例如：身心一如.mp3 或 禮佛拜師.mp3
+            fileName += ".mp3"; 
         }
         currentAudio.src = fileName;
         currentAudio.play().catch(() => alert("找不到音檔：" + fileName));
     }
 
-    function stopAudio() { currentAudio.pause(); currentAudio.currentTime = 0; }
+    function stopAudio() { 
+        currentAudio.pause(); currentAudio.currentTime = 0; 
+        masterAudio.pause(); masterAudio.currentTime = 0;
+    }
 
     function saveData() {
         const d = zenData[activeId];
@@ -230,7 +251,7 @@
             d.formula = document.getElementById('edit-formula').value;
         }
 
-        localStorage.setItem('zenSyncV2.4', JSON.stringify(zenData));
+        localStorage.setItem('zenSyncV2.5', JSON.stringify(zenData));
 
         const p = new URLSearchParams();
         p.append(CONFIG.entryID, `${activeId}. ${baseNames[activeId]}`);
@@ -240,7 +261,7 @@
         p.append(CONFIG.entryFormula, d.formula);
 
         fetch(`https://docs.google.com/forms/d/e/${CONFIG.formID}/formResponse`, { method: 'POST', mode: 'no-cors', body: p });
-        alert("儲存成功！資料已備份至雲端。");
+        alert("儲存成功！");
         renderSummaryTable();
     }
 
