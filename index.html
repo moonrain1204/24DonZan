@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>佛乘禪功 24 式功課表</title>
+    <title>佛乘動禪 24 式 (編輯儲存版)</title>
     <style>
         :root {
             --primary-color: #8e44ad;
-            --bg-color: #f9f9f9;
+            --bg-color: #f4f7f6;
             --card-bg: #ffffff;
             --text-color: #333;
             --accent-color: #f1c40f;
             --play-color: #27ae60;
             --stop-color: #e74c3c;
             --note-bg: #eef7ff;
-            --note-border: #3498db;
+            --save-btn: #2ecc71;
         }
 
         body {
@@ -23,170 +23,65 @@
             color: var(--text-color);
             margin: 0;
             padding: 20px;
-            line-height: 1.6;
         }
 
-        .version-tag {
-            text-align: right;
-            font-size: 0.8rem;
-            color: #888;
-            margin-bottom: -10px;
-        }
+        .container { max-width: 800px; margin: 0 auto; }
+        
+        header { text-align: center; padding: 20px 0; border-bottom: 2px solid var(--primary-color); margin-bottom: 30px; }
 
-        header {
-            text-align: center;
-            padding: 20px 0;
-            border-bottom: 2px solid var(--primary-color);
-            margin-bottom: 30px;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .zen-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-        }
+        .zen-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
 
         .zen-item {
             background: var(--card-bg);
             padding: 15px;
             text-align: center;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             cursor: pointer;
-            transition: transform 0.2s;
+            font-weight: bold;
             border: 1px solid #ddd;
-            font-weight: bold;
         }
 
-        .zen-item:hover {
-            transform: translateY(-3px);
-            background: #f0e6ff;
-            border-color: var(--primary-color);
-        }
+        .zen-item:hover { background: #f0e6ff; border-color: var(--primary-color); }
 
-        #detail-view {
-            display: none;
-            background: var(--card-bg);
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
+        #detail-view { display: none; background: var(--card-bg); padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
 
-        .back-btn {
-            background: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 8px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-bottom: 20px;
-        }
-
-        .audio-controls {
-            background: #fdfdfd;
-            padding: 12px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #eaeaea;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .audio-row {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 15px;
-            white-space: nowrap;
-        }
-
-        .audio-label {
-            font-weight: bold;
-            min-width: 70px;
-        }
-
-        .btn-group {
-            display: flex;
-            gap: 20px;
-        }
-
-        .icon-only-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 1.8rem;
-            padding: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.1s;
-        }
-
-        .play-icon { color: var(--play-color); }
-        .stop-icon { color: var(--stop-color); }
-
-        .section-title {
-            color: var(--primary-color);
-            border-left: 5px solid var(--primary-color);
-            padding-left: 10px;
-            margin: 20px 0 10px;
-        }
-
-        .quote-box {
-            font-family: "DFKai-SB", "BiauKai", "標楷體", serif;
-            font-style: normal;
-            background: #fffbe6;
-            padding: 15px;
-            border: 1px solid #ffe58f;
-            margin: 10px 0;
-            font-size: 1.1rem;
-        }
-
-        .note-block {
-            background: var(--note-bg);
-            border: 1px solid var(--note-border);
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            white-space: pre-line;
-            font-size: 0.95rem;
-        }
-
-        .instruction-block {
-            background: #f1f1f1;
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            white-space: pre-line;
-            border: 1px dashed #ccc;
-        }
-
-        .sub-label {
-            font-weight: bold;
-            color: #444;
-            margin-bottom: 5px;
-            display: block;
-        }
+        .back-btn { background: #95a5a6; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; margin-bottom: 20px; }
         
-        .content-text {
-            white-space: pre-line;
+        .save-btn { background: var(--save-btn); color: white; border: none; padding: 12px 25px; border-radius: 5px; cursor: pointer; font-size: 1rem; width: 100%; margin-top: 20px; font-weight: bold; }
+
+        .section-title { color: var(--primary-color); border-left: 5px solid var(--primary-color); padding-left: 10px; margin: 20px 0 10px; }
+
+        /* 編輯區域樣式 */
+        textarea {
+            width: 100%;
+            min-height: 100px;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.5;
+            background-color: #fff;
+            box-sizing: border-box;
+            resize: vertical;
         }
+
+        .edit-label { display: block; margin: 10px 0 5px; font-weight: bold; color: #555; }
+        .note-area { background-color: var(--note-bg); border-color: #3498db; }
+        .qi-area { background-color: #f9f9f9; }
+        .no-qi-area { background-color: #fffaf0; }
+
+        .audio-row { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; background: #f9f9f9; padding: 10px; border-radius: 8px; }
+        .icon-btn { border: none; width: 35px; height: 35px; border-radius: 5px; cursor: pointer; color: white; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="version-tag">Version 1.0 (Full Content)</div>
-
     <header>
-        <h1>佛乘禪功 24 式</h1>
-        <p>心理功課及生理功課</p>
+        <h1>佛乘動禪 24 式</h1>
+        <p>自定義編輯儲存系統</p>
     </header>
 
     <div id="main-list" class="zen-list"></div>
@@ -194,198 +89,71 @@
     <div id="detail-view">
         <button class="back-btn" onclick="showList()">← 返回列表</button>
         <h2 id="detail-title"></h2>
-        
-        <div class="audio-controls" id="audio-section">
-            <div class="audio-row" id="audio-row-1">
-                <span class="audio-label" id="audio-label-1">口訣：</span>
-                <div class="btn-group">
-                    <button class="icon-only-btn play-icon" onclick="playAudio(1)">▶</button>
-                    <button class="icon-only-btn stop-icon" onclick="stopAudio()">■</button>
-                </div>
-            </div>
-            <div class="audio-row" id="audio-row-2" style="display:none;">
-                <span class="audio-label" id="audio-label-2">不帶氣：</span>
-                <div class="btn-group">
-                    <button class="icon-only-btn play-icon" onclick="playAudio(2)">▶</button>
-                    <button class="icon-only-btn stop-icon" onclick="stopAudio()">■</button>
-                </div>
-            </div>
-        </div>
 
-        <div class="quote-box" id="master-box">
-            <strong>【師云】：</strong><span id="detail-master"></span>
+        <div class="audio-row">
+            <span>音軌控制：</span>
+            <button class="icon-btn" style="background:var(--play-color)" onclick="playAudio(1)">▶</button>
+            <button class="icon-btn" style="background:var(--stop-color)" onclick="stopAudio()">■</button>
         </div>
 
         <h3 class="section-title">心理功課</h3>
-        <p id="detail-mental" class="content-text"></p>
+        <textarea id="edit-mental"></textarea>
 
         <h3 class="section-title">生理功課</h3>
-        <p id="detail-physical" class="content-text"></p>
+        <textarea id="edit-physical"></textarea>
 
-        <h3 class="section-title">動作口訣</h3>
-        <div id="detail-steps-container"></div>
+        <h3 class="section-title">注意事項</h3>
+        <textarea id="edit-note" class="note-area" placeholder="請輸入注意事項..."></textarea>
+
+        <h3 class="section-title">動作口訣 (帶氣版)</h3>
+        <textarea id="edit-steps" class="qi-area" placeholder="請輸入帶氣版口訣..."></textarea>
+
+        <h3 class="section-title">動作口訣 (不帶氣版)</h3>
+        <textarea id="edit-no-qi" class="no-qi-area" placeholder="若無此項可留空..."></textarea>
+
+        <button class="save-btn" onclick="saveData()">💾 儲存此式修改</button>
     </div>
 </div>
 
 <script>
-    let currentAudio = new Audio();
-
-    const zenData = {
-        1: { 
-            name: "禮佛拜師", 
-            mental: "以五寶之理德為師，發大宏願行，尊師重道，建立倫理秩序。", 
-            physical: "(1)尊師重道之遵守。(2)活動脊椎對腸胃有益。",
-            stepsText: "【起式】：兩腳併攏，合掌置於胸前，觀想與祖師合一。\n1. 吸氣起身，手握空拳分開置腰際。\n2. 閉氣三秒，發「哈」聲吐氣手下分。\n3. 左腳跨出與肩同寬，膝微彎合掌吸氣。\n4. 凝視眉心吐氣，重複三次。"
-        },
-        2: { 
-            name: "法輪常轉", 
-            mental: "世出世法，圓通自在。", 
-            physical: "通和全身氣脈，對關節、內臟有助益。",
-            note: "包含頸、肩、臂、手肘、手掌、腰、膝、腳踝十部位。",
-            stepsText: "1.頸部轉動左右各三圈。2.肩部前後旋轉三圈。3.手臂前後大旋轉各三圈。4.手肘內外轉動。5.手指旋轉。6.手掌開展。7.手腕旋轉。8.腰部轉動。9.膝蓋護膝旋轉。10.腳踝轉動。"
-        },
+    const defaultData = {
+        1: { name: "禮佛拜師", mental: "以五寶之理德為師，發大宏願行...", physical: "(1)尊師重道之遵守。(2)活動脊椎對腸胃有助益。" },
+        2: { name: "法輪常轉", mental: "世出世法，圓通自在，以四攝法普度眾生。", physical: "通和全身氣脈，對關節、風濕及內臟等慢性病有助療之益。" },
         3: { 
             name: "身心一如", 
-            mental: "真空即是妙有，身心一如。", 
-            physical: "加強腰腎及全身機能。",
-            isRefining: true,
-            stepsText: "【祈求後】：吸氣入丹田，吐氣曲膝下蹲，手下擺。大腿平行地面時，手臂後擠壓腹發「嘶」聲。吸氣起身提肛，閉氣三秒發「哈」聲吐掉。",
-            stepsTextNoQi: "1.膝蓋微彎腳平扣。2.合掌下蹲。3.發嘶聲。4.起身提肛手回腰。"
+            mental: "真空即是妙有，身心一如，理事不二，慈悲平等，四無量心之行持。",
+            physical: "(1)以腹呼吸為主，加強腰腎及全身機能功用之行功。(2)有益治療腎虛、腸胃病及身弱引起的慢性病。",
+            stepsText: "做動禪前先祈求：雙手各結一法印，合掌置於胸前 15 公分處，心中默念三聲九字禪，祈求祖師大慈大悲威德力加持...\n\n1. 合掌置於胸前，吸氣入丹田...\n\n2. 當大腿與地面平行...",
+            stepsTextNoQi: "雙腳打開與肩同寬，腳掌平行，微微內扣，膝蓋微彎。\n合掌置於胸前，雙手順勢向前向下擺，同時曲膝下蹲..."
         },
-        4: { 
-            name: "慧眼觀空", 
-            mental: "伏斷三惑，真空妙有。", 
-            physical: "增強視力與腦力。",
-            stepsText: "1.用力閉眼眼球後看。2.眼球上下左右及圓轉各三圈。3.定點凝視。4.搓手敷眼。5.按摩眼眶 36 圈。"
-        },
-        5: { 
-            name: "空即是色", 
-            mental: "圓證法身。", 
-            physical: "加強全身機能。",
-            stepsText: "1.雙掌相對震動拉開。2.掌心朝前上下畫圓。3.手頂、手側、前方、下方各處快速震動約 20 下。4.收式合掌發哈聲。"
-        },
-        6: { 
-            name: "天耳圓通", 
-            mental: "明辨是非，反聞聞自性。", 
-            physical: "增強聽力腦力。",
-            stepsText: "1.掌心按壓耳洞 9 次。2.中指按壓耳穴發ㄣㄚ音。3.鳴天鼓 36 下。4.搓拉全耳。"
-        },
-        7: { 
-            name: "排除四大", 
-            mental: "地水火風調和。", 
-            physical: "加強肺部與內臟機能。",
-            isRefining: true,
-            stepsText: "1.吸氣手側舉向上。2.閉氣三秒。3.發哈聲向下用力按並下蹬。重複九次。"
-        },
-        8: { 
-            name: "鼻聞法香", 
-            mental: "悟前依法修，悟後法是塵。", 
-            physical: "呼吸器官與腦部功能。",
-            stepsText: "1.搓揉鼻樑與迎香穴。2.單孔交替吸氣與呼氣，配合閉氣三秒。"
-        },
-        9: { 
-            name: "頂天立地", 
-            mental: "道德事功，志與佛齊。", 
-            physical: "貫和全身氣脈。",
-            isRefining: true,
-            stepsText: "1.併攏吸氣手舉向上合掌。2.腳尖點地踮起向上延伸。3.閉氣三秒念口訣。4.發哈聲手分開下落。"
-        },
-        10: { 
-            name: "笑口常開", 
-            mental: "布施愛語，四攝法。", 
-            physical: "強健內臟，發聲煉氣。",
-            stepsText: "1.深吸氣。2.吐氣大聲哈笑三次，觀想濁氣隨聲出。"
-        },
-        11: { 
-            name: "舌吐蓮華", 
-            mental: "言必正。", 
-            physical: "神經系統與呼吸和協。",
-            stepsText: "1.伸舌收回。2.舌繞唇轉圈。3.舌頂牙齦轉圈。4.彈舌九次。"
-        },
-        12: { 
-            name: "橫出三界", 
-            mental: "一聲佛號具足戒定慧。", 
-            physical: "加強足部，打通腿部氣脈。",
-            stepsText: "1.重心右移下蹲吐氣濁氣出。2.吸氣回中。3.重心左移下蹲吐氣。重複九次，最後哈氣收式。"
-        },
-        13: { 
-            name: "降龍伏虎", 
-            mental: "定慧等持，煩惱即菩提。", 
-            physical: "強化脊椎關節。",
-            stepsText: "1.弓箭步前推。2.吸氣收回，吐氣用勁前推。3.換腳練習。"
-        },
-        14: { 
-            name: "卓立特行", 
-            mental: "志願作佛，不移心志。", 
-            physical: "加強重心平衡與足部。",
-            stepsText: "1.單腳獨立，另一膝抬高。2.手平舉平衡。3.閉目凝神，換腳。"
-        },
-        15: { 
-            name: "六度圓修", 
-            mental: "六度一行修。", 
-            physical: "全身機能合一。",
-            stepsText: "1.一腳站立，另一腳後 45 度擺動。2.雙手與腳交叉擺動不落地。男 36 女 25 次。"
-        },
-        16: { 
-            name: "抖落根塵", 
-            mental: "迴脫根塵，轉識成智。", 
-            physical: "神經系統和協。",
-            stepsText: "1.膝微彎。2.丹田氣發動，使全身產生細微綿密振動。3.哈氣收式。"
-        },
-        17: { 
-            name: "初段總結式", 
-            mental: "鬆慢柔空。", 
-            physical: "身心氣圓滿和協。",
-            stepsText: "1.隨意而動不重複。2.全身關節皆活動。3.哈氣收式。"
-        },
-        18: { 
-            name: "行腳四方", 
-            mental: "廣參良師，精進德業。", 
-            physical: "重心平衡、旋轉變易之行功。",
-            stepsText: "1.雙腳踩八卦步或方圓步移動。2.手隨身轉，保持圓融節奏。3.重心快速切換。"
-        },
-        19: { 
-            name: "百步行功", 
-            mental: "精進歡喜，篤行門規。", 
-            physical: "通下行氣，助益脊椎與減肥。",
-            stepsText: "1.雙手叉腰或下垂。2.膝蓋抬高行走百步。3.每步落地沉穩有力。"
-        },
-        20: { 
-            name: "十度圓修", 
-            mental: "六度至智度十度圓滿。", 
-            physical: "強化胯骨、腦部與全身關節。",
-            stepsText: "1.結合轉身、踢腿、旋腕之大動作。2.動作舒展，男 36 次女 25 次。"
-        },
-        21: { 
-            name: "天地震動", 
-            mental: "實證法身，十方震動。", 
-            physical: "加強腦神經與全身機能。",
-            stepsText: "1.雙腳併攏。2.由內而外發出強力震感。3.感覺身體每一細胞皆與天地同震。"
-        },
-        22: { 
-            name: "大如意掌前行", 
-            mental: "開發雙手能用之基礎。", 
-            physical: "加強末梢感知，活化腦細胞。",
-            note: "站坐皆可。肩膀放鬆，微守丹田。共五式，每式做 30 分鐘。",
-            stepsText: "一、拉橡皮筋：掌心相對分開收回。\n二、轉喇叭鎖：掌外旋、下轉再回。\n三、抱球：掌對繞球轉動。\n四、金剛指一：十指尖相對拉開收回。\n五、金剛指二：握空拳指尖向下用勁。"
-        },
-        23: { 
-            name: "力化六道", 
-            mental: "平等濟度眾生。", 
-            physical: "身心氣力一如之變用。",
-            stepsText: "1.雙手呈推拉、旋轉之勢。2.觀想力道化開六道執著。3.動作綿延不斷。"
-        },
-        24: { 
-            name: "苦行精進", 
-            mental: "苦樂不著，弘法利生。", 
-            physical: "加強腰腿，全身機能合一。",
-            stepsText: "1.深蹲緩起。2.配合深長呼吸。3.保持心境平和，重複九次。"
-        }
+        4: { name: "慧眼觀空", mental: "伏斷三惑，真空妙有一如。", physical: "增強視力及腦力功能之行功。" },
+        5: { name: "空即是色", mental: "圓證法身，十方三世一心如如。", physical: "加強和協全身各部機能。" },
+        6: { name: "天耳圓通", mental: "明辨是非、善惡、公私之界。", physical: "增強聽力、腦力功能。" },
+        7: { name: "排除四大", mental: "地水火風，四大調和。", physical: "加強全身機能功用。" },
+        8: { name: "鼻聞法香", mental: "悟前依法修，悟後法是塵。", physical: "增強鼻部、呼吸器官及腦部功能。" },
+        9: { name: "頂天立地", mental: "道德事功，志與佛齊。", physical: "以頭為主，貫和全身氣脈。" },
+        10: { name: "笑口常開", mental: "一音說法，十方普聞。", physical: "加強內臟功能發聲煉氣。" },
+        11: { name: "舌吐蓮華", mental: "兩舌、惡口、妄言、綺語為敗德之行。", physical: "加強和協呼吸系統、腦部。" },
+        12: { name: "橫出三界", mental: "念佛為往生淨土之大法。", physical: "加強和協全身氣能，打通腿脈。" },
+        13: { name: "降龍伏虎", mental: "貪、瞋、癡三毒，為生死輪迴之因。", physical: "對脊椎、關節具強化功用。" },
+        14: { name: "卓立特行", mental: "志願作佛，依法修行。", physical: "加強和協全身機能功用。" },
+        15: { name: "六度圓修", mental: "六度一行修，萬德由心圓。", physical: "身、心、氣、力合一。" },
+        16: { name: "抖落根塵", mental: "迴脫根塵，轉識成智。", physical: "加強和協全身機能功用。" },
+        17: { name: "初段總結式", mental: "鬆、慢、柔、空，有念進入無念。", physical: "打通前後脈、百脈、百竅。" },
+        18: { name: "行腳四方", mental: "初發心菩薩，廣參良師益友。", physical: "動靜、旋轉、易位、重心平衡。" },
+        19: { name: "百步行功", mental: "精進歡喜，篤行門規。", physical: "對脊椎、腦部及通下行氣有益。" },
+        20: { name: "十度圓修", mental: "十度圓滿。", physical: "加強脊椎、胯骨、手腳關節。" },
+        21: { name: "天地震動", mental: "實證法身，十方震動。", physical: "以腦神經為主。" },
+        22: { name: "大如意掌前行", mental: "待編輯", physical: "待編輯" },
+        23: { name: "力化六道", mental: "平等濟度眾生。", physical: "身、心、氣、力一如。" },
+        24: { name: "苦行精進", mental: "自覺覺他，永不懈怠。", physical: "以腰腿為主。" }
     };
 
-    const listContainer = document.getElementById('main-list');
+    let zenData = JSON.parse(localStorage.getItem('zenDataV1')) || defaultData;
     let activeId = null;
+    let currentAudio = new Audio();
 
+    const listContainer = document.getElementById('main-list');
     Object.keys(zenData).forEach(id => {
         const div = document.createElement('div');
         div.className = 'zen-item';
@@ -397,72 +165,28 @@
     function showDetail(id) {
         activeId = id;
         const item = zenData[id];
-        stopAudio();
-
         document.getElementById('main-list').style.display = 'none';
         document.getElementById('detail-view').style.display = 'block';
         document.getElementById('detail-title').innerText = `${id}. ${item.name}`;
-        document.getElementById('detail-mental').innerText = item.mental;
-        document.getElementById('detail-physical').innerText = item.physical;
-
-        const masterBox = document.getElementById('master-box');
-        if (item.master) {
-            masterBox.style.display = 'block';
-            document.getElementById('detail-master').innerText = item.master;
-        } else {
-            masterBox.style.display = 'none';
-        }
-
-        document.getElementById('audio-label-1').innerText = item.isRefining ? "煉氣版：" : "口訣：";
-        document.getElementById('audio-row-2').style.display = (item.isRefining || item.stepsTextNoQi) ? "flex" : "none";
-
-        const container = document.getElementById('detail-steps-container');
-        container.innerHTML = '';
         
-        if (item.note) {
-            const noteDiv = document.createElement('div');
-            noteDiv.className = 'note-block';
-            noteDiv.innerHTML = `<strong>【注意事項】：</strong><br>${item.note}`;
-            container.appendChild(noteDiv);
-        }
-
-        if (item.stepsText) {
-            if (item.isRefining || item.stepsTextNoQi) {
-                const label = document.createElement('span');
-                label.className = 'sub-label';
-                label.innerText = '【帶氣版】';
-                container.appendChild(label);
-            }
-            const div = document.createElement('div');
-            div.className = 'instruction-block';
-            div.innerText = item.stepsText;
-            container.appendChild(div);
-        }
-
-        if (item.stepsTextNoQi) {
-            const label = document.createElement('span');
-            label.className = 'sub-label';
-            label.innerText = '【不帶氣版】';
-            container.appendChild(label);
-            const div = document.createElement('div');
-            div.className = 'instruction-block';
-            div.innerText = item.stepsTextNoQi;
-            container.appendChild(div);
-        }
-
+        // 填入資料至 textarea
+        document.getElementById('edit-mental').value = item.mental || "";
+        document.getElementById('edit-physical').value = item.physical || "";
+        document.getElementById('edit-note').value = item.note || "";
+        document.getElementById('edit-steps').value = item.stepsText || "";
+        document.getElementById('edit-no-qi').value = item.stepsTextNoQi || "";
         window.scrollTo(0,0);
     }
 
-    function playAudio(version) {
-        const item = zenData[activeId];
-        let fileName = (version === 2) ? `${item.name}2.mp3` : `${item.name}.mp3`;
-        currentAudio.src = fileName;
-        currentAudio.play().catch(e => alert("未找到音檔：" + fileName));
-    }
-
-    function stopAudio() {
-        currentAudio.pause();
-        currentAudio.currentTime = 0;
+    function saveData() {
+        zenData[activeId].mental = document.getElementById('edit-mental').value;
+        zenData[activeId].physical = document.getElementById('edit-physical').value;
+        zenData[activeId].note = document.getElementById('edit-note').value;
+        zenData[activeId].stepsText = document.getElementById('edit-steps').value;
+        zenData[activeId].stepsTextNoQi = document.getElementById('edit-no-qi').value;
+        
+        localStorage.setItem('zenDataV1', JSON.stringify(zenData));
+        alert(zenData[activeId].name + " 資料已成功儲存至此設備。");
     }
 
     function showList() {
@@ -470,6 +194,14 @@
         document.getElementById('main-list').style.display = 'grid';
         document.getElementById('detail-view').style.display = 'none';
     }
+
+    function playAudio(v) {
+        const name = zenData[activeId].name;
+        currentAudio.src = `${name}.mp3`;
+        currentAudio.play().catch(() => alert("未找到音檔"));
+    }
+
+    function stopAudio() { currentAudio.pause(); currentAudio.currentTime = 0; }
 </script>
 
 </body>
