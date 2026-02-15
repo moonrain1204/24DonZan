@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>佛乘禪功 24 式雲端系統 (V2.7)</title>
+    <title>佛乘禪功 24 式雲端系統 (V2.8)</title>
     <style>
         :root {
             --primary-color: #8e44ad;
@@ -28,12 +28,21 @@
         .master-player {
             background: #fff; border: 2px solid var(--primary-color); border-radius: 15px;
             padding: 15px; margin-bottom: 25px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            position: relative;
         }
 
         .player-box { background: #fff; border: 1px solid #ddd; border-radius: 10px; padding: 10px; margin: 10px 0; display: flex; align-items: center; gap: 10px; justify-content: center; }
         .audio-btn { border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; color: white; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
         
-        .btn-sheet { background: var(--sheet-color); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; margin-bottom: 20px; font-weight: bold; width: 100%; justify-content: center; }
+        /* 縮小後的雲端表單按鈕 */
+        .btn-sheet-mini { 
+            position: absolute; right: 15px; top: 15px;
+            background: var(--sheet-color); color: white; border: none; 
+            width: 32px; height: 32px; border-radius: 8px; cursor: pointer; 
+            text-decoration: none; display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; transition: 0.3s;
+        }
+        .btn-sheet-mini:hover { transform: scale(1.1); background: #156d3a; }
 
         .zen-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; margin-bottom: 30px; }
         .zen-item { background: var(--card-bg); padding: 20px 15px; text-align: center; border-radius: 10px; cursor: pointer; border: 1px solid #ddd; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.3s; }
@@ -57,7 +66,7 @@
 <body>
 
 <div class="container">
-    <div class="version-tag">Version 2.7 (Simplified Summary Table)</div>
+    <div class="version-tag">Version 2.8</div>
     <header>
         <h1>佛乘禪功 24 式</h1>
         <p>心理與生理功課同步系統</p>
@@ -65,12 +74,12 @@
 
     <div id="main-list-container">
         <div class="master-player">
-            <span style="font-weight:bold; color:var(--primary-color)">🧘 動禪心法導引 (.wav)</span>
+            <a href="https://docs.google.com/spreadsheets/d/1sRdGK99bjGdPZTxf9oxvHg7JbIR635CEzTq5IrFCn_A/edit" target="_blank" class="btn-sheet-mini" title="打開雲端試算表">📊</a>
+            <span style="font-weight:bold; color:var(--primary-color)">🧘 動禪心法</span>
             <div class="player-box">
                 <button class="audio-btn" style="background:var(--play-color)" onclick="playMaster()">▶</button>
                 <button class="audio-btn" style="background:var(--stop-color)" onclick="stopAudio()">■</button>
             </div>
-            <a href="https://docs.google.com/spreadsheets/d/1sRdGK99bjGdPZTxf9oxvHg7JbIR635CEzTq5IrFCn_A/edit" target="_blank" class="btn-sheet">📊 打開雲端試算表</a>
         </div>
 
         <div id="main-list" class="zen-list"></div>
@@ -96,7 +105,7 @@
         <h2 id="detail-title" style="margin:0"></h2>
 
         <div id="normal-player-ui" class="player-box">
-            <span>🎵 播放導引 (.mp3)：</span>
+            <span>🎵 播放導引：</span>
             <button class="audio-btn" style="background:var(--play-color)" onclick="playAudio('normal')">▶</button>
             <button class="audio-btn" style="background:var(--stop-color)" onclick="stopAudio()">■</button>
         </div>
@@ -112,7 +121,7 @@
 
         <div id="special-qigong-ui" style="display:none;">
             <div class="special-box">
-                <div style="font-weight:bold; color:var(--accent-blue); margin-bottom:10px;">⚡ 帶氣版模式 (名稱.mp3)</div>
+                <div style="font-weight:bold; color:var(--accent-blue); margin-bottom:10px;">⚡ 帶氣版模式</div>
                 <div class="player-box">
                     <button class="audio-btn" style="background:var(--accent-blue)" onclick="playAudio('qi')">▶</button>
                     <button class="audio-btn" style="background:var(--stop-color)" onclick="stopAudio()">■</button>
@@ -120,7 +129,7 @@
                 <textarea id="edit-formula-qi" placeholder="帶氣版口訣..." oninput="autoResize(this)"></textarea>
             </div>
             <div class="special-box" style="background:#fffcf0; border-color:#ffeaa7;">
-                <div style="font-weight:bold; color:#d6a317; margin-bottom:10px;">🌿 不帶氣版模式 (名稱2.mp3)</div>
+                <div style="font-weight:bold; color:#d6a317; margin-bottom:10px;">🌿 不帶氣版模式</div>
                 <div class="player-box">
                     <button class="audio-btn" style="background:#f1c40f" onclick="playAudio('no-qi')">▶</button>
                     <button class="audio-btn" style="background:var(--stop-color)" onclick="stopAudio()">■</button>
@@ -178,7 +187,7 @@
         24: { mental: "菩薩行者，苦樂不著，自覺覺他，弘法利生，永不懈怠。", physical: "以腰腿為主，加強和協全身機能功用之行功。" }
     };
 
-    let zenData = JSON.parse(localStorage.getItem('zenSyncV2.7')) || {};
+    let zenData = JSON.parse(localStorage.getItem('zenSyncV2.8')) || {};
     let activeId = null;
     let currentAudio = new Audio();
     let masterAudio = new Audio('動禪心法.wav');
@@ -281,7 +290,7 @@
             d.formula = document.getElementById('edit-formula').value;
         }
 
-        localStorage.setItem('zenSyncV2.7', JSON.stringify(zenData));
+        localStorage.setItem('zenSyncV2.8', JSON.stringify(zenData));
 
         const p = new URLSearchParams();
         p.append(CONFIG.entryID, `${activeId}. ${baseNames[activeId]}`);
