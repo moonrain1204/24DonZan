@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>佛乘禪功 24 式 (V4.8)</title>
+    <title>佛乘禪功 24 式 (V4.9)</title>
     <style>
         :root {
             --primary-color: #8e44ad;
@@ -29,7 +29,7 @@
         
         .master-player {
             background: #fff; border: 2px solid var(--primary-color); border-radius: 15px;
-            padding: 15px; margin-bottom: 25px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            padding: 15px; margin-bottom: 15px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
             position: relative;
         }
 
@@ -70,7 +70,7 @@
 <body>
 
 <div class="container">
-    <div class="version-tag">Version 4.8</div>
+    <div class="version-tag">Version 4.9</div>
     <header>
         <h1>佛乘禪功 24 式</h1>
         <p>心理與生理功課</p>
@@ -86,6 +86,17 @@
                     <button class="audio-btn" style="background:var(--stop-color)" onclick="stopAudio()">■</button>
                 </div>
                 <div id="master-time-info" class="time-info">--分--秒 | 預計播完 --:--</div>
+            </div>
+        </div>
+
+        <div class="master-player">
+            <span style="font-weight:bold; color:var(--primary-color)">頭部動禪</span>
+            <div class="player-box">
+                <div class="player-controls">
+                    <button id="head-play-btn" class="audio-btn" style="background:var(--play-color)" onclick="toggleHeadZen()">▶</button>
+                    <button class="audio-btn" style="background:var(--stop-color)" onclick="stopAudio()">■</button>
+                </div>
+                <div id="head-time-info" class="time-info">--分--秒 | 預計播完 --:--</div>
             </div>
         </div>
 
@@ -166,6 +177,7 @@
 <script>
     const qiGongIds = [3, 7, 9];
     const baseNames = ["","禮佛拜師","法輪常轉","身心一如","慧眼觀空","空即是色","天耳圓通","排除四大","鼻聞法香","頂天立地","笑口開開","舌吐蓮華","橫出三界","降龍伏虎","卓立特行","六度圓修","抖落根塵","初段總結式","行腳四方","百步行功","十度圓修","天地震動","大如意掌前行","力化六道","苦行精進"];
+    const headZenIndices = [4, 6, 8, 10, 11]; // 頭部動禪包含的式數
 
     const initialContent = {
         1: { m: "以五寶之理德為師，發大宏願行，尊師重道，孝敬親長，建立以門規為依止的倫理秩序。", p: "(1) 尊師重道，倫理秩序禮節之遵守。(2) 活動脊椎等關節，對脊椎、關節、腸胃有助益之效。並可對治我慢，培養恭敬心與謙和心。" },
@@ -199,7 +211,11 @@
     let submitted = false;
     let currentAudio = new Audio();
     let masterAudio = new Audio('動禪心法.wav');
-    let activePlayerType = ''; // 'master', 'normal', 'qi', 'no-qi'
+    let activePlayerType = ''; // 'master', 'head', 'normal', 'qi', 'no-qi'
+    
+    // 頭部動禪連續播放邏輯所需變數
+    let headZenCurrentIndex = 0;
+    let headZenTotalDuration = 0;
 
     function init() {
         for(let i=1; i<=24; i++) {
@@ -216,33 +232,96 @@
         [currentAudio, masterAudio].forEach(audio => {
             audio.addEventListener('loadedmetadata', updateTimeDisplay);
             audio.addEventListener('timeupdate', updateTimeDisplay);
-            audio.addEventListener('ended', () => { resetButtons(); stopAudio(); });
+            audio.addEventListener('ended', handleAudioEnded);
         });
     }
 
-    function updateTimeDisplay() {
-        const audio = (activePlayerType === 'master') ? masterAudio : currentAudio;
-        if (!audio.duration) return;
+    function handleAudioEnded() {
+        if (activePlayerType === 'head') {
+            headZenCurrentIndex++;
+            if (headZenCurrentIndex < headZenIndices.length) {
+                playHeadZenStep();
+            } else {
+                stopAudio();
+            }
+        } else {
+            stopAudio();
+        }
+    }
 
-        const remaining = audio.duration - audio.currentTime;
-        const minutes = Math.floor(audio.duration / 60);
-        const seconds = Math.floor(audio.duration % 60);
-        
+    async function updateTimeDisplay() {
+        const audio = (activePlayerType === 'master') ? masterAudio : currentAudio;
+        let remaining = 0;
+        let total = 0;
+
+        if (activePlayerType === 'head') {
+            // 計算連續播放的總時間
+            total = await getHeadZenTotalDuration();
+            let playedTimeInCurrent = currentAudio.currentTime;
+            let finishedDuration = 0;
+            for(let i=0; i<headZenCurrentIndex; i++) {
+                finishedDuration += await getAudioDuration(baseNames[headZenIndices[i]] + ".wav");
+            }
+            remaining = total - (finishedDuration + playedTimeInCurrent);
+        } else {
+            if (!audio.duration) return;
+            total = audio.duration;
+            remaining = audio.duration - audio.currentTime;
+        }
+
+        const minutes = Math.floor(total / 60);
+        const seconds = Math.floor(total % 60);
         const now = new Date();
         const end = new Date(now.getTime() + remaining * 1000);
         const endStr = end.getHours().toString().padStart(2, '0') + ":" + end.getMinutes().toString().padStart(2, '0');
-
         const displayStr = `${minutes}分${seconds}秒 | 預計播完 ${endStr}`;
         
-        if (activePlayerType === 'master') document.getElementById('master-time-info').innerText = displayStr;
-        else if (activePlayerType === 'normal') document.getElementById('detail-time-info').innerText = displayStr;
-        else if (activePlayerType === 'qi') document.getElementById('qi-time-info').innerText = displayStr;
-        else if (activePlayerType === 'no-qi') document.getElementById('noqi-time-info').innerText = displayStr;
+        const infoMap = { 'master': 'master-time-info', 'head': 'head-time-info', 'normal': 'detail-time-info', 'qi': 'qi-time-info', 'no-qi': 'noqi-time-info' };
+        if(infoMap[activePlayerType]) document.getElementById(infoMap[activePlayerType]).innerText = displayStr;
+    }
+
+    // 取得頭部動禪總時長的輔助函式
+    async function getHeadZenTotalDuration() {
+        if (headZenTotalDuration > 0) return headZenTotalDuration;
+        let d = 0;
+        for (let idx of headZenIndices) {
+            d += await getAudioDuration(baseNames[idx] + ".wav");
+        }
+        headZenTotalDuration = d;
+        return d;
+    }
+
+    function getAudioDuration(src) {
+        return new Promise((resolve) => {
+            let tempAudio = new Audio(src);
+            tempAudio.addEventListener('loadedmetadata', () => resolve(tempAudio.duration));
+            tempAudio.addEventListener('error', () => resolve(0)); // 找不到檔案則跳過
+        });
     }
 
     function toggleMaster() {
         if (activePlayerType !== 'master') { stopAudio(); activePlayerType = 'master'; }
         togglePlay(masterAudio, 'master-play-btn');
+    }
+
+    function toggleHeadZen() {
+        if (activePlayerType !== 'head') {
+            stopAudio();
+            activePlayerType = 'head';
+            headZenCurrentIndex = 0;
+            playHeadZenStep();
+        } else {
+            togglePlay(currentAudio, 'head-play-btn');
+        }
+    }
+
+    function playHeadZenStep() {
+        let id = headZenIndices[headZenCurrentIndex];
+        currentAudio.src = baseNames[id] + ".wav";
+        currentAudio.play();
+        const btn = document.getElementById('head-play-btn');
+        btn.innerHTML = '⏸';
+        btn.style.background = 'var(--pause-color)';
     }
 
     function toggleDetail(type) {
@@ -273,11 +352,12 @@
     function stopAudio() {
         currentAudio.pause(); currentAudio.currentTime = 0;
         masterAudio.pause(); masterAudio.currentTime = 0;
+        headZenCurrentIndex = 0;
         resetButtons();
     }
 
     function resetButtons() {
-        const btns = ['master-play-btn', 'detail-play-btn', 'qi-play-btn', 'noqi-play-btn'];
+        const btns = ['master-play-btn', 'head-play-btn', 'detail-play-btn', 'qi-play-btn', 'noqi-play-btn'];
         btns.forEach(id => {
             const btn = document.getElementById(id);
             if (btn) {
@@ -339,6 +419,7 @@
     }
 
     function showList() { stopAudio(); document.getElementById('main-list-container').style.display='block'; document.getElementById('detail-view').style.display='none'; }
+    
     function saveData() {
         const btn = document.getElementById('save-btn');
         btn.innerText = "⌛ 同步中...";
@@ -361,6 +442,7 @@
         submitted = true;
         document.getElementById('google-form').submit();
     }
+    
     function finalizeSave() {
         const btn = document.getElementById('save-btn');
         btn.innerText = "💾 儲存並同步至雲端";
@@ -369,6 +451,7 @@
         renderSummaryTable();
         showList();
     }
+    
     function autoResize(el) { el.style.height = 'auto'; el.style.height = (el.scrollHeight) + 'px'; }
     init();
 </script>
